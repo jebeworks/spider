@@ -2,7 +2,7 @@ __author__ = 'DCD'
 # -*- coding:utf-8 -*-
 
 import urllib
-import urllib.request
+import urllib2
 import re
 
 
@@ -12,10 +12,9 @@ class Spider:
 
     def getPage(self, pageIndex):
         url = self.siteURL + "?page=" + str(pageIndex)
-        print
-        url
-        request = urllib.request.Request(url)
-        response = urllib.request.urlopen(request)
+        print url
+        request = urllib2.Request(url)
+        response = urllib2.urlopen(request)
         return response.read().decode('gbk')
 
     def getContents(self, pageIndex):
