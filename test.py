@@ -1,6 +1,5 @@
-__author__ = 'WFL'
+__author__ = 'DCD'
 # -*- coding:utf-8 -*-
-
 
 import urllib
 import urllib2
