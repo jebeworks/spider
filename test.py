@@ -1,9 +1,12 @@
 __author__ = 'WFL'
 # -*- coding:utf-8 -*-
 
+
 import urllib
 import urllib2
 import re
+# import urllib.request
+
 
 
 class Spider:
@@ -12,9 +15,14 @@ class Spider:
 
     def getPage(self, pageIndex):
         url = self.siteURL + "?page=" + str(pageIndex)
-        print url
+        print
+        url
+
+        #request = urllib.request.Request(url)
+        #response = urllib.request.urlopen(request)
         request = urllib2.Request(url)
         response = urllib2.urlopen(request)
+
         return response.read().decode('gbk')
 
     def getContents(self, pageIndex):
