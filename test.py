@@ -23,8 +23,7 @@ class Spider:
 
     def getPage(self, pageIndex):
         url = self.siteURL + "?page=" + str(pageIndex)
-        print
-        url
+        print url
 
         #request = urllib.request.Request(url)
         #response = urllib.request.urlopen(request)
@@ -42,5 +41,43 @@ class Spider:
             print(item[0], item[1], item[2], item[3], item[4])
 
 
-spider = Spider()
-spider.getContents(2)
+#spider = Spider()
+#spider.getContents(2)
+
+class TtjjSpider:
+    def __init__(self):
+        self.siteURL = 'http://fund.eastmoney.com/f10/'
+
+    def getPage(self, code, per):
+        url = self.siteURL + "F10DataApi.aspx?type=lsjz&code=" + code + "&page=1&per=" + str(per) + "&sdate=&edate=&rt=0.2289961661162161"
+        #print url
+
+        #request = urllib.request.Request(url)
+        #response = urllib.request.urlopen(request)
+        request = urllib2.Request(url)
+        response = urllib2.urlopen(request)
+
+        return response.read()
+
+    def getContents(self, code):
+        page = self.getPage(code, 1)
+        #print page
+
+        pattern = re.compile('var apidata={ content:"<table class=.*?>.*?</table>",records:(.*?),pages:.*?,curpage:.*?};',re.S)
+        recordsStr = re.findall(pattern, page)
+        records = int(('').join(recordsStr))
+
+        #page = self.getPage(code, 10)
+        page = self.getPage(code, records)
+        #print page
+        pattern = re.compile(
+            '<tr><td>(.*?)</td><td class=.*?>(.*?)</td><td class=.*?>(.*?)</td>.*?</tr>',re.S)
+
+        items = re.findall(pattern, page)
+
+        for item in items:
+            print(item[0], item[1], item[2])
+
+
+spider = TtjjSpider()
+spider.getContents("000697")
