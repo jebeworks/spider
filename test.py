@@ -4,8 +4,13 @@ __author__ = 'DCD'
 import urllib
 import urllib2
 import re
-# import urllib.request
+import string
+import time
+import numpy as np
+import pandas as pd
+import csv
 
+#import urllib.request
 #http://fund.eastmoney.com/f10/jjjz_000697.html
 #http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=000697&page=1&per=20&sdate=&edate=&rt=0.2289961661162161
 #http://fund.eastmoney.com/js/fundcode_search.js
@@ -75,8 +80,53 @@ class TtjjSpider:
 
         items = re.findall(pattern, page)
 
-        for item in items:
-            print(item[0], item[1], item[2])
+        print len(items)
+
+        #for item in items:
+            #print(time.strptime(item[0], "%Y-%m-%d"), string.atof(item[1]), string.atof(item[2]))
+            #print(item[0], item[1], item[2])
+
+        print items[1]
+
+
+        with open('stocks.csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerows(items)
+
+
+        date = list()
+        with open('stocks.csv', 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                #if reader.line_num == 1:
+                #    continue
+                date.append(row[0])
+        #print date
+
+        daily = list()
+        with open('stocks.csv', 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                #if reader.line_num == 1:
+                #    continue
+                daily.append(string.atof(row[1]))
+        #print daily
+
+
+        accu = list()
+        with open('stocks.csv', 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                #if reader.line_num == 1:
+                #    continue
+                accu.append(string.atof(row[2]))
+        #print accu
+
+        #print daily+accu
+
+        df = pd.DataFrame(accu, index = date, columns=list('A')) #['Daily', 'Accu'])
+
+        print df.describe()
 
 
 spider = TtjjSpider()
