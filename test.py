@@ -60,9 +60,9 @@ class Spider:
 
 
 class TtjjSpider:
-    
-    
-    
+
+
+
     def __init__(self):
         self.siteURL = 'http://fund.eastmoney.com/f10/'
 
